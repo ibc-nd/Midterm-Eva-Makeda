@@ -1,1 +1,10 @@
-#ignore the following
+._.DS_Store
+5_test_proteomes/
+tmp/
+temporary/
+pipeline_results.csv
+*.afa
+*.hmm
+*.tbl
+._*
+EOF
