@@ -22,9 +22,18 @@ awk -F, 'NR > 1 && $2 > 0 && $3 > 0' tmp/pipeline_results.csv >> candidate_prote
 7. Check the number of results using:
 wc -l all_proteome_results.csv
 wc -l pipeline_results.csv
-- There were 51 lines, including the line with the header, in the complete results file. There were 16 lines, including the header, in the filtered candidate file. 
+- There were 51 lines, including the line with the header, in the complete results file.
+- There were 16 lines, including the header, in the filtered candidate file. 
 
 #Results:
 
 Exercise 4: 
-1. Ran the pipeline on all 50 proteomes using 
+1. Ran the pipeline on all 50 proteomes using: bash run_pipeline.sh ~/bioinformatics_project_canvas/ref_sequences ~/bioinformatics_project_canvas/proteomes candidate_proteomes.csv
+2. Examined the complete results using: awk -F, 'NR > 1 {print $1, $2}' all_proteome_results.csv - This showed each proteome and its McrA hit count.
+3.  To examine HSP70 hit counts, organized from lowest to highest, used: awk -F, 'NR > 1 {print $1, $3}' all_proteome_results.csv | sort -k2,2n
+
+These were the results: 
+- McrA: The maximum was 2 hits in proteome_19.fasta and proteome_23.fasta. The minimum was 0 hits in 35 proteomes.
+- HSP70: The maximum was 7 hits in proteome_18.fasta and proteome_22.fasta. The minimum was 0 hits in 8 proteomes: proteome_02.fasta, proteome_06.fasta, proteome_17.fasta, proteome_28.fasta, proteome_29.fasta, proteome_33.fasta, proteome_40.fasta, and proteome_46.fasta.
+
+In the filtering step, 15 candidate proteomes with at least one significant hit for both McrA and HSP70 were identified. These candidates can be found in pipeline_results.csv. 
