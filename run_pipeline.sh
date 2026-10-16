@@ -37,17 +37,18 @@ hmmbuild tmp/hsp70_profile.hmm tmp/hsp70_aligned.afa > tmp/hsp70_hmmbuild.log
 #
 #searching every proteome in a directory
 echo "proteome,mcrA_hits,hsp70_hits" > tmp/pipeline_results.csv
-for proteome in proteomes/*.fasta; do
-	name=$(basename "proteome")
+for proteome in "$2"/*.fasta; do
+	name=$(basename "$proteome")
 #
 	hmmsearch --tblout tmp/mcrA_hits.txt tmp/mcrA_profile.hmm "$proteome" > tmp/search.log
-	mrcA_hits=$(grep -v "^#" tmp/mcrA_hits.txt | awk '$5<0.001' | wc -l)
+	mcrA_hits=$(grep -v "^#" tmp/mcrA_hits.txt | awk '$5<0.001' | wc -l)
 #
 	hmmsearch --tblout tmp/hsp70_hits.txt tmp/hsp70_profile.hmm "$proteome" > tmp/search.log
         hsp70_hits=$(grep -v "^#" tmp/hsp70_hits.txt | awk '$5<0.001' | wc -l)
 	echo "$name,$mcrA_hits,$hsp70_hits" >> tmp/pipeline_results.csv
 done
 #keep proteomes with hits for mcrA and hsp70
-head -1 tmp/pipeline_results.csv > $3
+cp tmp/pipeline_results.csv all_proteome_results.csv
+head -1 tmp/pipeline_results.csv > "$3"
 awk -F, 'NR > 1 && $2 > 0 && $3 > 0' tmp/pipeline_results.csv >> "$3"
 echo "Results can be found in $3"

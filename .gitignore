@@ -2,9 +2,9 @@
 5_test_proteomes/
 tmp/
 temporary/
-pipeline_results.csv
 *.afa
 *.hmm
 *.tbl
 ._*
 EOF
+assignment06_mgrimaud.txt
